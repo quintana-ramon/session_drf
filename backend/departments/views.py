@@ -1,24 +1,28 @@
-from rest_framework import mixins
+import re
+from sys import maxsize
 from rest_framework import generics
+from rest_framework import mixins
 
-from .models import Product
-from .serializers import ProductSerializer
+from .models import Department
+from .serializers import DepartmentSerializer
 
 # Create your views here.
 
 
-class Products(
+class PermissionAPIView(
     mixins.ListModelMixin,
     mixins.RetrieveModelMixin,
     mixins.CreateModelMixin,
+    mixins.UpdateModelMixin,
+    mixins.DestroyModelMixin,
     generics.GenericAPIView,
 ):
-    queryset = Product.objects.all()
-    serializer_class = ProductSerializer
-    lookup_field = "pk"
+    queryset = Department.objects.all()
+    serializer_class = DepartmentSerializer
+    lookup_field = "id"
 
     def get(self, request, *args, **kwargs):
-        pk = kwargs.get("pk")
+        pk = kwargs.get("id")
         if pk is not None:
             return self.retrieve(request, *args, **kwargs)
         return self.list(request, *args, **kwargs)
@@ -28,4 +32,4 @@ class Products(
         return self.create(request, *args, **kwargs)
 
 
-product_view = Products.as_view()
+department_view = PermissionAPIView.as_view()

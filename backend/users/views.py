@@ -1,21 +1,21 @@
-from rest_framework import mixins
+import re
 from rest_framework import generics
+from rest_framework import mixins
 
-from .models import Product
-from .serializers import ProductSerializer
+from .models import User
+from .serializers import UserSerializer
 
 # Create your views here.
 
 
-class Products(
+class CreateUser(
     mixins.ListModelMixin,
     mixins.RetrieveModelMixin,
     mixins.CreateModelMixin,
     generics.GenericAPIView,
 ):
-    queryset = Product.objects.all()
-    serializer_class = ProductSerializer
-    lookup_field = "pk"
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
 
     def get(self, request, *args, **kwargs):
         pk = kwargs.get("pk")
@@ -24,8 +24,7 @@ class Products(
         return self.list(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
-
         return self.create(request, *args, **kwargs)
 
 
-product_view = Products.as_view()
+user_view = CreateUser.as_view()

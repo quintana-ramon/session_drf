@@ -1,8 +1,8 @@
-from django.urls import path, include
+from django.urls import path
 
 from . import views
 
-# 127.0.0.1:8000/api/v1/user
+# 127.0.0.1:8000/api/v1/permissions/
 urlpatterns = [
-    path("", views.admin_user_create_view),
+    path("", views.permission_view),
 ]

@@ -1,28 +1,30 @@
 from rest_framework import serializers
 
-from .models import AdminUser, FinanceUser, PurchasingUser, SalesUser
+from .models import Permission
 
 
-class AdminUserSerializer(serializers.ModelSerializer):
-    type = serializers.SerializerMethodField(read_only=False)
+class PermissionSerializer(serializers.ModelSerializer):
+    save = serializers.BooleanField(required=False)
+    read = serializers.BooleanField(required=False)
+    update = serializers.BooleanField(required=False)
+    delete = serializers.BooleanField(required=False)
+
+    def validate_save(self, value):
+        print(type(value))
+        return value
 
     class Meta:
-        model = AdminUser
-        fields = ["username", "email", "password", "name", "last_name", "type"]
-        extra_kwargs = {"password": {"write_only": True}}
-
-    def get_type(self, obj):
-        pass
+        model = Permission
+        fields = ["save", "read", "update", "delete", "departmentid"]
 
         def create(self, validated_data):
-            if validated_data["type"]:
-                print("success")
-            user = AdminUser(
-                username=validated_data["username"],
-                email=validated_data["email"],
-                name=validated_data["name"],
-                last_name=validated_data["last_name"],
+
+            permission = Permission(
+                save=validated_data["save"],
+                read=validated_data["read"],
+                update=validated_data["update"],
+                delete=validated_data["delete"],
+                departmentid=validated_data["departmentid"],
             )
-            user.set_password(validated_data["password"])
-            user.save()
-            return user
+            permission.save()
+            return permission
