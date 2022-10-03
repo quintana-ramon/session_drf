@@ -1,14 +1,14 @@
-from sys import maxsize
-from rest_framework import generics
-from rest_framework import mixins
+from rest_framework import generics, mixins, authentication, permissions
 
 from .models import Permission
 from .serializers import PermissionSerializer
+from .customPermission import CustomPermission
 
 # Create your views here.
 
 
 class PermissionAPIView(
+    mixins.DestroyModelMixin,
     mixins.ListModelMixin,
     mixins.RetrieveModelMixin,
     mixins.CreateModelMixin,
@@ -17,6 +17,8 @@ class PermissionAPIView(
     queryset = Permission.objects.all()
     serializer_class = PermissionSerializer
     lookup_field = "pk"
+    authentication_classes = [authentication.SessionAuthentication]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
     def get(self, request, *args, **kwargs):
         pk = kwargs.get("pk")
@@ -26,6 +28,9 @@ class PermissionAPIView(
 
     def post(self, request, *args, **kwargs):
         return self.create(request, *args, **kwargs)
+
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)
 
 
 permission_view = PermissionAPIView.as_view()

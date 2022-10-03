@@ -4,27 +4,16 @@ from .models import Permission
 
 
 class PermissionSerializer(serializers.ModelSerializer):
-    save = serializers.BooleanField(required=False)
-    read = serializers.BooleanField(required=False)
-    update = serializers.BooleanField(required=False)
-    delete = serializers.BooleanField(required=False)
-
-    def validate_save(self, value):
-        print(type(value))
-        return value
-
     class Meta:
         model = Permission
-        fields = ["save", "read", "update", "delete", "departmentid"]
+        fields = ["productid", "departmentid", "permissions"]
 
         def create(self, validated_data):
 
             permission = Permission(
-                save=validated_data["save"],
-                read=validated_data["read"],
-                update=validated_data["update"],
-                delete=validated_data["delete"],
+                productid=validated_data["productid"],
                 departmentid=validated_data["departmentid"],
+                permissions=validated_data["permissions"],
             )
             permission.save()
             return permission

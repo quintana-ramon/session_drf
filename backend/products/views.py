@@ -1,5 +1,6 @@
 from rest_framework import mixins
 from rest_framework import generics
+from rest_framework_simplejwt.authentication import JWTAuthentication
 
 from .models import Product
 from .serializers import ProductSerializer
@@ -16,6 +17,7 @@ class Products(
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     lookup_field = "pk"
+    authentication_classes = [JWTAuthentication]
 
     def get(self, request, *args, **kwargs):
         pk = kwargs.get("pk")
