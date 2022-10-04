@@ -1,4 +1,5 @@
-from rest_framework import generics, mixins, authentication, permissions
+from rest_framework import generics, mixins, permissions
+from rest_framework_simplejwt.authentication import JWTAuthentication
 
 from .models import Permission
 from .serializers import PermissionSerializer
@@ -17,7 +18,7 @@ class PermissionAPIView(
     queryset = Permission.objects.all()
     serializer_class = PermissionSerializer
     lookup_field = "pk"
-    authentication_classes = [authentication.SessionAuthentication]
+    authentication_classes = [JWTAuthentication]
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
     def get(self, request, *args, **kwargs):

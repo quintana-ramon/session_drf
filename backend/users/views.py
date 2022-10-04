@@ -1,7 +1,6 @@
-# from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
-from rest_framework import status, generics, mixins, authentication, permissions
-from rest_framework_simplejwt.tokens import Token
+from rest_framework import status, generics, mixins, permissions
+from rest_framework_simplejwt.authentication import JWTAuthentication
 
 from .serializers import UserSerializer
 from .models import MyUser
@@ -18,8 +17,8 @@ class CreateUser(
 ):
     queryset = MyUser.objects.all()
     serializer_class = UserSerializer
-    # authentication_classes = [authentication.SessionAuthentication]
-    # permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
     def get(self, request, *args, **kwargs):
         pk = kwargs.get("pk")

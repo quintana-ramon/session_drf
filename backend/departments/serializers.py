@@ -5,9 +5,11 @@ from .models import Department
 
 
 class DepartmentSerializer(serializers.ModelSerializer):
+    id = serializers.ReadOnlyField()
+
     class Meta:
         model = Department
-        fields = ["name"]
+        fields = ["id", "name"]
 
         def create(self, validated_data):
             department = Department(name=validated_data["name"])

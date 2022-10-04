@@ -4,9 +4,11 @@ from .models import Product
 
 
 class ProductSerializer(serializers.ModelSerializer):
+    id = serializers.ReadOnlyField()
+
     class Meta:
         model = Product
-        fields = ["name", "amount", "description"]
+        fields = ["id", "name", "amount", "description"]
 
         def create(self, validated_data):
             product = Product(

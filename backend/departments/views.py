@@ -1,7 +1,5 @@
-import re
-from sys import maxsize
-from rest_framework import generics
-from rest_framework import mixins
+from rest_framework import generics, mixins, permissions
+from rest_framework_simplejwt.authentication import JWTAuthentication
 
 from .models import Department
 from .serializers import DepartmentSerializer
@@ -20,6 +18,8 @@ class PermissionAPIView(
     queryset = Department.objects.all()
     serializer_class = DepartmentSerializer
     lookup_field = "id"
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
     def get(self, request, *args, **kwargs):
         pk = kwargs.get("id")
