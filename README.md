@@ -4,8 +4,8 @@
 
 requirement | version
 ---|---
-Python 3 | lastest
-Postgres | lastest
+Python 3 | latest
+Postgres | latest
 
 - #### Create a database in your postgres called session_drf
 
